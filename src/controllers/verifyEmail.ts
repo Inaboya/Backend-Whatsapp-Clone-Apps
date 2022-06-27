@@ -43,7 +43,7 @@ export const loginUser = async (
     return res.status(400).send(error.details[0].message);
   } else {
     try {
-      const findUser = await UserAuth.findOne({ email: req.body.email }).select(
+      let findUser = await UserAuth.findOne({ email: req.body.email }).select(
         '+password'
       );
 
@@ -64,6 +64,8 @@ export const loginUser = async (
         process.env.ACCESS_TOKEN_SECRET as Secret
       );
       req.user! = findUser;
+      findUser.password = undefined as unknown as string;
+      findUser.confirmCode = undefined as unknown as string;
       return res
         .status(201)
         .json({ message: 'login successful', accessToken, user: findUser });
@@ -79,7 +81,6 @@ export const protect = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('>>> protect is working...');
   let token;
   // 1) Getting token and check if its there
 

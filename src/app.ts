@@ -5,7 +5,6 @@ import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import Pusher from 'pusher';
 
 import bodyParser from 'body-parser';
 
@@ -33,9 +32,6 @@ const app = express();
 
 //Pusher config
 
-
-
-app.use(cors());
 //middlewares
 
 app.use(cors());

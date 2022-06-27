@@ -20,7 +20,6 @@ export const createGroup = async (
 
     const userId = req.user!.id;
     const userStr = req.user!.id.toString();
-    console.log(userStr);
     // const admin = await Group.find({ id: userId }).populate('id')
     const groupAdmins = [userId];
     const id = nanoid();
@@ -34,7 +33,6 @@ export const createGroup = async (
       ...req.body,
     };
     const group = await Group.create({ ...groupInfo });
-    console.log(group);
     return res.status(201).json({ message: 'successful', link: slug });
   } catch (error: any) {
     return res.status(403).json({ error: error.message });
@@ -49,7 +47,6 @@ export const getAllGroups = async (
 ) => {
   try {
     const userId = req.user!.id;
-    console.log(userId);
     const findGroups = await Group.find({ members: userId });
     return res.status(200).json({ allgroups: findGroups });
   } catch (error: any) {
@@ -67,7 +64,6 @@ export const addOthers = async (
   try {
     const groupId = req.params.groupId;
     const { memberId } = req.body;
-    
     const userId = req.user!.id;
     if (!memberId) {
       return res
@@ -92,9 +88,7 @@ export const addOthers = async (
 
 export const getGroup = async (req: CustomRequest, res: Response) => {
   try {
-
     const userId = req.user!.id;
-    console.log(userId);
     let groupId = req.params.id;
     const groups = await Group.find({ members: userId });
     let group = groups.find((group) => group.id === groupId);

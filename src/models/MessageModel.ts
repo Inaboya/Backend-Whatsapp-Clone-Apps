@@ -45,8 +45,6 @@ const MessageSchema = new Schema(
         message: 'mediaType must be either image, video,document or audio',
       },
     },
-
-    receiver: Boolean,
     mediaUrl: String,
     mediaId: String,
     deletedAt: {

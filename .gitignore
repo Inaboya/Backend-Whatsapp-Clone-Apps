@@ -1,2 +1,9 @@
 ./node_modules
-./src
+.env
+./dist
+dist
+./yarn.lock
+./yarn-error.log
+public
+images
+node_modules
