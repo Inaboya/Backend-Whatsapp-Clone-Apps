@@ -15,12 +15,9 @@ export const deleteMessage = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.params, 'request parameters');
-
     const result = await Message.findOneAndDelete({
       chatId: req.params.chatId,
     });
-    console.log(result, 'hhh');
 
     return res
       .status(201)
@@ -47,7 +44,6 @@ export const getMediaType = async (
   next: NextFunction
 ) => {
   const media = req.body.mediaType;
-  console.log(red(media));
   res.status(200).json({ data: req.body });
   return;
   // next();
@@ -64,6 +60,7 @@ export const getMessagesBySenderId = async (req: Request, res: Response) => {
     res.status(404).json({ error: 'Unable to get messages' });
   }
 };
+
 export const createMessages = async (
   req: CustomRequest,
   res: Response,
@@ -78,6 +75,7 @@ export const createMessages = async (
     }
 
     let groupUrl = req.originalUrl.includes('groups');
+
     if (!req.body.chatId) req.body.chatId = req.params.chatId;
     if (!req.body.senderId) req.body.senderId = req.user.id;
     req.body.chatType = groupUrl ? 'Group' : 'PrivateChat';

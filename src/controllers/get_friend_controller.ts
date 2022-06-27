@@ -10,7 +10,6 @@ const getFriend = async (req: CustomRequest, res: Response) => {
       .where('friendId')
       .in(['61f96689a9bfac9a30be7977']);
 
-    console.log(friends);
     if (friends.length <= 0) {
       return res.status(404).json({
         message: 'No friends found',

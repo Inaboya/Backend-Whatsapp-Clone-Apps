@@ -77,7 +77,7 @@ export const signup = async (
             <br/>
 
 
-         <a href="http://${req.headers.host}/api/v1/users/${newUser.confirmCode}" target="_blank" style="text-decoration:none; background-color:#25D366; color:white; padding: 15px; border-radius: 5px; width: 100px; margin-bottom: 5px;">Verify now!</a>
+         <a href="http://${req.headers.host}/api/v1/users/verify-email?pass=${newUser.confirmCode}" target="_blank" style="text-decoration:none; background-color:#25D366; color:white; padding: 15px; border-radius: 5px; width: 100px; margin-bottom: 5px;">Verify now!</a>
          <br/>
 
             <p style="margin-top:10px">💚 Welcome to Whatsapp!</p>
@@ -144,8 +144,6 @@ export const signup = async (
 export const otherUserProfile = async (req: Request, res: Response) => {
   try {
     // get the user id
-
-    console.log(req.params);
 
     const { userId } = req.params;
     const otherUser = await UserAuth.findById(userId);

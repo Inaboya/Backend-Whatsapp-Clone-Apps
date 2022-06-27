@@ -14,7 +14,7 @@ export const getAllFriends = async (
   try {
     const userLogin = req.user!.id;
 
-    const friends = await Friend.find({ userId: userLogin });
+    const friends = await Friend.find({ users: userLogin });
 
     return res.status(200).json({
       status: 'success',
@@ -74,7 +74,6 @@ export const getFriend = async (req: CustomRequest, res: Response) => {
     const userId = req.user!.id;
     const friendId = req.params.id;
     const friend = await Friend.find({ userId, friendId });
-    console.log(friend);
     const friendDetails = await UserAuth.find({ _id: friendId });
     if (!friend) {
       return res.status(404).json({
@@ -85,30 +84,6 @@ export const getFriend = async (req: CustomRequest, res: Response) => {
       status: 'success',
       data: {
         friendDetails,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({ error });
-  }
-};
-
-// Remove Friend
-
-export const removeFriend = async (req: CustomRequest, res: Response) => {
-  try {
-    const userId = req.user!.id;
-    const friendId = req.params.id;
-    const friend = await Friend.find({ userId, friendId });
-    if (!friend) {
-      return res.status(404).json({
-        message: 'friend not found',
-      });
-    }
-    await Friend.findByIdAndDelete(friendId);
-    res.status(200).json({
-      status: 'success',
-      data: {
-        friend,
       },
     });
   } catch (error) {
@@ -127,11 +102,7 @@ export const addFavoriteFriend = async (
     const userId = req.user!.id;
     const friendId = req.params.id;
 
-    const userFriend = await Friend.findOne({ userId, friendId });
-
-    // console.log(userFriend[0].friendId);
-
-    console.log(friendId);
+    const userFriend = await Friend.find({ userId, friendId });
 
     const user = await UserAuth.findById(userId);
 
@@ -140,18 +111,17 @@ export const addFavoriteFriend = async (
         return res.status(400).json({
           message: 'This friend already exists as a favorite friend',
         });
-      } else {
-        user!.favoriteFriendsList.push(friendId);
-
-        await user!.save();
-
-        res.status(201).json({
-          status: 'success',
-          data: {
-            friendId,
-          },
-        });
       }
+      user!.favoriteFriendsList.push(friendId);
+
+      await user!.save();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          friendId,
+        },
+      });
     } else {
       res.status(400).json({
         message: 'friend not exist',
@@ -168,7 +138,6 @@ export const getFavoriteFriends = async (
   res: Response,
   next: NextFunction
 ) => {
-  // console.log('>>> userId:', req.user!.id);
   try {
     const userId = req.user!.id;
 

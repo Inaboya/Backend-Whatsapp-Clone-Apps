@@ -8,9 +8,7 @@ const getFavouriteFriends = async (req: CustomRequest, res: Response) => {
     const queryId = req.query.friendId;
     const { _id } = req.user;
     const userId = req.user.id;
-    console.log(req.user);
-    // console.log(req.query);
-    // let id = '61f966a8a9bfac9a30be797a';
+
     let favoriteFriends = await UserAuth.find({ id: userId }).populate(
       'favoriteFriends'
     );

@@ -17,7 +17,6 @@ export const updateUserProfilePicture = async (
   next: NextFunction
 ) => {
   try {
-    console.log(process.env);
     const userId = req.user!.id;
     const { file } = req;
     const { public_id, url } = await cloudinary.uploader.upload(file!.path);
